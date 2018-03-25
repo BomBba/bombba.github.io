@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+
+  
+  <title>raft算法简述 | Hexo</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="raft算法简述前言本文是对raft相关论文以及其他相关文献进行阅读，整理出的raft算法的相关细节 节点结构raft算法采用了复制状态机的相关思路。每个节点保存有操作序列以及操作后的数据信息。一般来说，一个节点有3个模块：  状态机：保存数据的结果状态 日志：用于同步的数据修改记录 一致性处理模块：用于确保系统内每个节点的日志信息一致性  客户端的相关消息发送给服务器，服务器通过相关操作，将结果">
+<meta name="keywords" content="raft">
+<meta property="og:type" content="article">
+<meta property="og:title" content="raft算法简述">
+<meta property="og:url" content="http://yoursite.com/2018/03/11/raft算法简述/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="raft算法简述前言本文是对raft相关论文以及其他相关文献进行阅读，整理出的raft算法的相关细节 节点结构raft算法采用了复制状态机的相关思路。每个节点保存有操作序列以及操作后的数据信息。一般来说，一个节点有3个模块：  状态机：保存数据的结果状态 日志：用于同步的数据修改记录 一致性处理模块：用于确保系统内每个节点的日志信息一致性  客户端的相关消息发送给服务器，服务器通过相关操作，将结果">
+<meta property="og:image" content="http://yoursite.com/2018/03/11/raft算法简述/images/FAB6A4A1-F5A1-433C-8BE8-BD9806920AEC.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/11/raft算法简述/images/A42174BC-D9D9-4752-9A4D-53914022E814.png">
+<meta property="og:image" content="http://yoursite.com/2018/03/11/raft算法简述/images/4858d6a8ly1fccbvshy16j20f00a374x.jpg">
+<meta property="og:updated_time" content="2018-03-25T06:35:26.097Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="raft算法简述">
+<meta name="twitter:description" content="raft算法简述前言本文是对raft相关论文以及其他相关文献进行阅读，整理出的raft算法的相关细节 节点结构raft算法采用了复制状态机的相关思路。每个节点保存有操作序列以及操作后的数据信息。一般来说，一个节点有3个模块：  状态机：保存数据的结果状态 日志：用于同步的数据修改记录 一致性处理模块：用于确保系统内每个节点的日志信息一致性  客户端的相关消息发送给服务器，服务器通过相关操作，将结果">
+<meta name="twitter:image" content="http://yoursite.com/2018/03/11/raft算法简述/images/FAB6A4A1-F5A1-433C-8BE8-BD9806920AEC.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Hexo" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Hexo</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Suche"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-raft算法简述" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/03/11/raft算法简述/" class="article-date">
+  <time datetime="2018-03-11T06:34:32.000Z" itemprop="datePublished">2018-03-11</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      raft算法简述
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="raft算法简述"><a href="#raft算法简述" class="headerlink" title="raft算法简述"></a>raft算法简述</h1><h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>本文是对raft相关论文以及其他相关文献进行阅读，整理出的raft算法的相关细节</p>
+<h2 id="节点结构"><a href="#节点结构" class="headerlink" title="节点结构"></a>节点结构</h2><p>raft算法采用了复制状态机的相关思路。每个节点保存有操作序列以及操作后的数据信息。一般来说，一个节点有3个模块：</p>
+<ol>
+<li>状态机：保存数据的结果状态</li>
+<li>日志：用于同步的数据修改记录</li>
+<li>一致性处理模块：用于确保系统内每个节点的日志信息一致性<br><img src="images/FAB6A4A1-F5A1-433C-8BE8-BD9806920AEC.png" alt=""></li>
+</ol>
+<p>客户端的相关消息发送给服务器，服务器通过相关操作，将结果返回。</p>
+<h2 id="关键阶段"><a href="#关键阶段" class="headerlink" title="关键阶段"></a>关键阶段</h2><p>首先确定一致性算法具备的相关特性</p>
+<ol>
+<li>确保安全性。即使在所有的非拜占庭（即没有故意发送错误信息）的情况下，包括网络延迟、分区、丢包、冗余和乱序的情况下。</li>
+<li>高可用性。当集群中的大部分机器可用，整个系统就可以正常使用。</li>
+<li>不依赖时序保证一致性，时钟错误和极端情况下的消息延迟在最坏的情况下才会引起可用性问题。</li>
+<li>通常情况下，一条命令能够尽可能快的在大多数节点对一轮远程调用作出相应时完成，少部分慢的机器不会影响系统的整体性能。</li>
+</ol>
+<h3 id="Leader选举"><a href="#Leader选举" class="headerlink" title="Leader选举"></a>Leader选举</h3><h4 id="节点状态"><a href="#节点状态" class="headerlink" title="节点状态"></a>节点状态</h4><p>Raft协议中的每个节点都会处于三种状态之一：Leader、Follower、Candidate。</p>
+<ol>
+<li>Leader(领导者)：所有的请求都会被发送给Leader进行处理，然后同步到集群的其他节点中</li>
+<li>Follower(追随者)：从Leader节点接受更新请求，然后写入本地的Log中</li>
+<li>Candidate(候选者)：如果Follower在一段时间内没有收到Leader的心跳，则判断Leader可能已经故障，此时启动选主过程，此时节点会变成Candidate状态，直到选主结束。</li>
+</ol>
+<h4 id="Term机制"><a href="#Term机制" class="headerlink" title="Term机制"></a>Term机制</h4><p>Raft算法将时间分为任意不同长度的Term(任期)，任期用连续的数字进行表示。每一个任期的开始都是一次选举（election），一个或多个候选人会试图成为领导人。如果一个候选人赢得了选举，它就会在该任期的剩余时间担任领导人。在某些情况下，选票会被瓜分，有可能没有选出领导人，那么，将会开始另一个任期，并且立刻开始下一次选举，Raft算法保证在给定的一个任期最少要有一个领导人。</p>
+<p>在每个任期中，开始进行选举：</p>
+<ol>
+<li>Follower将自己维护的current_term_id加1。</li>
+<li>然后将自己的状态转成Candidate</li>
+<li>发送RequestVoteRPC消息(带上current_term_id)给其它所有server</li>
+</ol>
+<p>节点看到的选举结果有三种：</p>
+<ol>
+<li>自己成为了Leader,这样本身就会定期向其它节点发送无log信息的AppendEntriesRPC消息，其他节点收到rpc_term_id大于自身，即更新自己的current_term_id。如果当前state为leader或者candidate时，将自己的状态切成follower。</li>
+<li>等待别人的选票时，有可能会收到来自其他节点发来的声明其为领导人的AppendEntriesRPC消息。如果这个领导人的任期比当前候选人的当前任期要大，则候选人认为该领导人合法，并且转换自己的状态为追随者。如果在这个RPC中的任期小于候选人的当前任期，则候选人会拒绝这条消息，继续保持候选人状态。</li>
+<li>还有可能选票被分散，没有节点获得大多数票数，此时会current_term_id自增1重新进行选举。Raft使用随机的选举超时时间来确保第三种情形很少发生，并且能够快速解决。为了防止在一开始是选票就被瓜分，选举超时时间是在一个固定的间隔内随机选出来的（例如，150~300ms）。</li>
+</ol>
+<blockquote>
+<p>注意：单节点故障的间隔时间 &gt;&gt;(远大于) 选举超时时间 &gt;&gt; 广播消息时间  </p>
+</blockquote>
+<h3 id="日志复制"><a href="#日志复制" class="headerlink" title="日志复制"></a>日志复制</h3><p>Leader被选举出来之后，就开始接收客户端的请求。领导人把这条命令作为新的日志条目加入到它的日志中去，然后并行的向其他服务器发起AppendEntriesRPC消息，要求其它节点复制这个条目。当这个条目被安全的复制之后，领导人会将这个条目应用到它的状态机中并且会向客户端返回执行结果。如果追随者崩溃了或者运行缓慢或者是网络丢包了，领导人会无限的重试AppendEntriesRPC消息（甚至在它向客户端响应之后）,直到所有的追随者最终存储了所有的日志条目。</p>
+<p>当Leader想要将操作消息添加到Log中，需要确定当前消息是可提交的。所谓的可提交，即领导人创建的条目已经复制到了大多数的服务器。<br>判断Leader和Follower的Log一致的机制如下：Leader为每个Follower保存了一个nextIndex，它表示领导人将要发送给该追随者的下一条日志条目的索引。Leader开始时会将nextIndex初始化为它的最新的日志条目索引数+1。如果一个追随者的日志和领导者的不一致，AppendEntries一致性检查会在下一次AppendEntriesRPC消息时返回失败。在失败之后，领导人会将nextIndex递减然后重试。最终nextIndex会达到一个领导人和追随者日志一致的地方。这时，AppendEntries会返回成功，追随者中冲突的日志条目都被移除了，并且添加所缺少的上了领导人的日志条目。当AppendEntries消息返回成功，追随者和领导人的日志就一致了，这样的状态会保持到该任期结束。</p>
+<p>论文给出了一些优化的方法来减少通讯的次数，这里不多介绍。</p>
+<h3 id="安全性"><a href="#安全性" class="headerlink" title="安全性"></a>安全性</h3><p>前面已经说清楚Raft算法是如何进行领导选取和复制日志的。然而，到目前为止这个机制还不能保证每一个状态机能按照相同的顺序执行同样的指令。例如，当领导人提交了若干日志条目的同时一个追随者可能宕机了，之后它又被选为了领导人然后用新的日志条目覆盖掉了旧的那些，最后，不同的状态机可能执行不同的命令序列。</p>
+<p>这里介绍论文里提的一个示例：</p>
+<p><img src="images/A42174BC-D9D9-4752-9A4D-53914022E814.png" alt=""></p>
+<ol>
+<li>term为2，S1是Leader，且S1写入日志（term, index）为(2, 2)，并且日志被同步写入了S2；</li>
+<li>S1失去连接，触发新的选举，此时S5被选为新的Leader，此时系统term为3，且写入了日志（term, index）为（3，2）;</li>
+<li>S5还没有推送，发生掉线。触发了选举，之前离线的S1经过重新上线后被选中变成Leader，此时系统term为4，此时S1会将自己的日志同步到Followers，按照上图就是将日志（2， 2）同步到了S3，而此时由于该日志已经被同步到了多数节点（S1, S2, S3），因此，此时日志（2，2）可以被commit了（即更新到状态机）；</li>
+<li>d阶段，S1下线，S5上线，又被选举为Leader，这样S5就将S2和S3的信息覆盖了,这样S1的状态机就和其他不一致了</li>
+</ol>
+<p>因此，raft添加了一个很简单的选举限制：<strong>只有Leader当前任期的日志条目才能通过计算数目来进行提交。</strong>。<br>针对上述情况就是：即使日志（2，2）已经被大多数节点（S1、S2、S3）确认了，但是它不能被Commit，因为它是来自之前term(2)的日志，直到S1在当前term（4）产生的日志（4，4）被大多数Follower确认，S1方可Commit（4，4）这条日志，当然，根据Raft定义，（4，4）之前的所有日志也会被Commit。此时即使S1再下线，重新选主时S5不可能成为Leader，因为它没有包含大多数节点已经拥有的日志（4，4）。</p>
+<h3 id="集群变化"><a href="#集群变化" class="headerlink" title="集群变化"></a>集群变化</h3><p>为了让配置修改机制能够安全，那么在转换的过程中在任何时间点两个领导人不能再同一个任期被同时选为领导人。不幸的是，服务器集群从旧的配置直接升级到新的配置的任何方法都是不安全的，一次性自动的转换所有服务器是不可能的，所以集群可以在转换的过程中划分成两个单独的组(old 和 new)。</p>
+<p><img src="images/4858d6a8ly1fccbvshy16j20f00a374x.jpg" alt=""></p>
+<p>具体流程如下：</p>
+<ol>
+<li>Leader收到新的配置命令从old切换到new；</li>
+<li>Leader生成新的Log消息，保存有old和new的消息，推送给其他节点。</li>
+<li>一个服务器将新的配置日志条目增加到它的日志中，它就会用这个配置来做出未来所有的决定</li>
+<li>当多数Follower确认收到日志，Leader即提交这条Log(如果Leader崩溃了，被选出来的新领导人可能是使用Cold配置也可能是Cold,new配置，这取决于赢得选举的候选人是否已经接收到了Cold,new配置。在任何情况下，Cnew配置在这一时期都不会单方面的做出决定。)</li>
+<li>Leader再生成一条包含Cnew配置的log消息，同样将该log entry写入本地日志，同时推送到Follower上</li>
+<li>新配置提交后，即可正常使用</li>
+</ol>
+<p>三个问题</p>
+<ol>
+<li>新节点没有Log信息，同步时间怎么办？<br>为了避免这种可用性的间隔时间，Raft在配置更新的时候使用了一种额外的阶段，在这个阶段，新节点以没有投票权的身份加入到集群中来（领导人复制日志给他们，但是不把它们考虑到大多数中）。</li>
+<li>集群的领导人可能不是新配置的一员？<br>领导人就会在提交了Cnew日志之后退位（回到跟随者状态）。这意味着有这样的一段时间，领导人管理着集群，但是不包括自己；它复制日志但是不把它自己看作是大多数之一。当Cnew被提交时，会发生Leader过渡，因为这时是新的配置可以独立工作的最早的时间点</li>
+<li>移除不在Cnew中的服务器可能会扰乱集群，比如多余的心跳消息等<br>为了避免这个问题，当服务器确认当前Leader存在时，服务器会忽略RequestVoteRPC消息。特别的，当服务器在当前最小选举超时时间内收到一个RequestVoteRPC，它不会更新当前的任期号或者投出选票。这不会影响正常的选举，每个服务器在开始一次选举之前，至少等待一个最小选举超时时间。然而，这有利于避免被移除的服务器扰乱：如果领导人能够发送心跳给集群，那么它就不会被更大的任期号废除。</li>
+</ol>
+<h3 id="快照技术"><a href="#快照技术" class="headerlink" title="快照技术"></a>快照技术</h3><p>由于不能让Log无限增长，因此定期对Commit的状态机进行快照。</p>
+<p>#blog/一致性算法</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2018/03/11/raft算法简述/" data-id="cjf6gtato00039gu833i129a1" class="article-share-link">Teilen</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/raft/">raft</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/02/23/python小计/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Älter</strong>
+      <div class="article-nav-title">python小计</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/IO/">IO</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/go/">go</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/python/">python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/raft/">raft</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/syscall/">syscall</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/汇编/">汇编</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/IO/" style="font-size: 10px;">IO</a> <a href="/tags/go/" style="font-size: 20px;">go</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/raft/" style="font-size: 10px;">raft</a> <a href="/tags/syscall/" style="font-size: 10px;">syscall</a> <a href="/tags/汇编/" style="font-size: 10px;">汇编</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archiv</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/03/">March 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/01/">January 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">letzter Beitrag</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/03/11/raft算法简述/">raft算法简述</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/23/python小计/">python小计</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/07/Go-Assembly实践/">Go Assembly实践</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/02/译-Unsafe-Pointer和系统调用/">[译]Unsafe.Pointer和系统调用</a>
+          </li>
+        
+          <li>
+            <a href="/2018/01/31/译-Go的Stream-IO/">[译]Go的Stream IO</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 John Doe<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
