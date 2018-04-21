@@ -99,20 +99,25 @@
 
 
 
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/archives/2018/03/index.html">
+  <meta name="description" content="etcd安装部署步骤我是通过yum直接安装的(yum install etcd -y)，其生成的配置文件在/etc/etcd/etcd.conf。 这里分单机版和集群版来介绍配置项 单机配置ETCD_DATA_DIR:数据存放路径,默认不用修改，当然也可以存到其他地方；ETCD_WAL_DIR:默认为空，设置了路径后，可以用WAL写入替代data文件写入，操作丢失风险更小；ETCD_LISTEN_">
+<meta name="keywords" content="etcd">
+<meta property="og:type" content="article">
+<meta property="og:title" content="etcd安装部署步骤">
+<meta property="og:url" content="http://yoursite.com/2018/04/21/etcd-deploy/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="etcd安装部署步骤我是通过yum直接安装的(yum install etcd -y)，其生成的配置文件在/etc/etcd/etcd.conf。 这里分单机版和集群版来介绍配置项 单机配置ETCD_DATA_DIR:数据存放路径,默认不用修改，当然也可以存到其他地方；ETCD_WAL_DIR:默认为空，设置了路径后，可以用WAL写入替代data文件写入，操作丢失风险更小；ETCD_LISTEN_">
 <meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2018-04-21T10:45:49.163Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="etcd安装部署步骤">
+<meta name="twitter:description" content="etcd安装部署步骤我是通过yum直接安装的(yum install etcd -y)，其生成的配置文件在/etc/etcd/etcd.conf。 这里分单机版和集群版来介绍配置项 单机配置ETCD_DATA_DIR:数据存放路径,默认不用修改，当然也可以存到其他地方；ETCD_WAL_DIR:默认为空，设置了路径后，可以用WAL写入替代data文件写入，操作丢失风险更小；ETCD_LISTEN_">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/2018/03/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/04/21/etcd-deploy/"/>
 
 
 
@@ -122,7 +127,7 @@
   };
 </script>
 
-  <title>Archive | Hexo</title>
+  <title>etcd安装部署步骤 | Hexo</title>
   
 
 
@@ -169,7 +174,7 @@
     
   
 
-  <div class="container sidebar-position-left page-archive">
+  <div class="container sidebar-position-left page-post-detail">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -251,97 +256,172 @@
           
             
 
-    
-    
-      
-      
-    
-      
-      
-    
-    
-
-  
-
-
           
           <div id="content" class="content">
             
 
+  <div id="posts" class="posts-expand">
+    
+
+  
+
   
   
   
-  <div class="post-block archive">
-    <div id="posts" class="posts-collapse">
-      <span class="archive-move-on"></span>
 
-      
-      <span class="archive-page-counter">
-        
-        
-        
-          
-        
-        Um..! 6 posts in total. Keep on posting.
-      </span>
-      
-
-      
-
-        
-        
-        
-
-        
-          
-          <div class="collection-title">
-            <h1 class="archive-year" id="archive-year-2018">2018</h1>
-          </div>
-        
-        
-
-        
+  
 
   <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/04/21/etcd-deploy/">
 
-      <h2 class="post-title">
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Zhang Cheng">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
         
-            <a class="post-title-link" href="/2018/03/11/raft算法简述/" itemprop="url">
-              
-                <span itemprop="name">raft算法简述</span>
-              
-            </a>
         
-      </h2>
+          <h1 class="post-title" itemprop="name headline">etcd安装部署步骤</h1>
+        
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2018-03-11T14:34:32+08:00"
-              content="2018-03-11" >
-          03-11
-        </time>
-      </div>
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+              <time title="Post created" itemprop="dateCreated datePublished" datetime="2018-04-21T18:45:24+08:00">2018-04-21</time>
+            
 
-    </header>
-  </article>
+            
+            
 
+            
+          </span>
 
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
 
       
+      
 
+      
+        <h1 id="etcd安装部署步骤"><a href="#etcd安装部署步骤" class="headerlink" title="etcd安装部署步骤"></a>etcd安装部署步骤</h1><p>我是通过yum直接安装的(<code>yum install etcd -y</code>)，其生成的配置文件在<code>/etc/etcd/etcd.conf</code>。</p>
+<p>这里分单机版和集群版来介绍配置项</p>
+<h2 id="单机配置"><a href="#单机配置" class="headerlink" title="单机配置"></a>单机配置</h2><p><code>ETCD_DATA_DIR</code>:数据存放路径,默认不用修改，当然也可以存到其他地方；<br><code>ETCD_WAL_DIR</code>:默认为空，设置了路径后，可以用WAL写入替代data文件写入，操作丢失风险更小；<br><code>ETCD_LISTEN_CLIENT_URLS</code>:  告知客户端的URL,因为其曝露了RESTFUL API，用于进行交互，云服务器注意设置为内网ip+2379(默认监听端口)，<strong>不设置的话，其他主机无法访问</strong>；<br><code>ETCD_ADVERTISE_CLIENT_URLS</code>：告知客户端的URL，设置和上一项相同即可；</p>
+<h2 id="集群配置"><a href="#集群配置" class="headerlink" title="集群配置"></a>集群配置</h2><ul>
+<li><code>ETCD_INITIAL_ADVERTISE_PEER_URLS</code>:告知集群其他节点的URL,一般是2380端口；</li>
+<li><code>ETCD_INITIAL_CLUSTER</code>: 集群的节点信息 比如<code>node1=http://119.29.155.122:2380</code>；</li>
+<li><code>ETCD_INITIAL_CLUSTER_TOKEN</code>: 自定义的一个token；</li>
+<li><code>ETCD_INITIAL_CLUSTER_STATE</code>: 这里有两种<code>new</code>和<code>existing</code>,即加入与被加入；</li>
+</ul>
+<p>配置好了之后，就可以用远程客户端或者etcdctl来使用etcd相关功能了。</p>
+
+      
     </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/etcd/" rel="tag"># etcd</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/03/11/raft算法简述/" rel="next" title="raft算法简述">
+                <i class="fa fa-chevron-left"></i> raft算法简述
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
   </div>
   
   
   
+  </article>
 
-  
 
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
 
 
           </div>
           
+
+  
+
+
 
         </div>
         
@@ -362,8 +442,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            Table of Contents
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            Overview
+          </li>
+        </ul>
+      
 
-      <section class="site-overview-wrap sidebar-panel sidebar-panel-active">
+      <section class="site-overview-wrap sidebar-panel">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -433,6 +522,22 @@
         </div>
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#etcd安装部署步骤"><span class="nav-number">1.</span> <span class="nav-text">etcd安装部署步骤</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#单机配置"><span class="nav-number">1.1.</span> <span class="nav-text">单机配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#集群配置"><span class="nav-number">1.2.</span> <span class="nav-text">集群配置</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
@@ -567,6 +672,10 @@
 
 
   
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.0.6"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.0.6"></script>
+
+
 
   
 
